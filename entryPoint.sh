@@ -118,7 +118,6 @@ if [[ "${NODE,,}" == "receiver" ]]; then
     done
     mkdir -p /run/sshd
     mv /sshd_config /etc/ssh/sshd_config
-    echo "PermitRootLogin no" >> /etc/ssh/sshd_config
     # Ensure permissions are correct on the rsync-user directory, or it won't let
     # us rsync/ssh in as the rsync-user
     # Asegúrese de que los permisos sean correctos en el directorio rsync-user, o no nos permitirá
