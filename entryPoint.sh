@@ -68,6 +68,10 @@ if [[ "${NODE,,}" == "sender" ]]; then
 
     if ! [[ -e "/home/rsync-user/.ssh/known_hosts" ]]; then
         touch /home/rsync-user/.ssh/known_hosts
+        chown rsync-user:rsync-user /home/rsync-user/.ssh
+        chown rsync-user:rsync-user /home/rsync-user/.ssh/known_hosts
+        chmod 700 /home/rsync-user/.ssh
+        chmod 600 /home/rsync-user/.ssh/known_hosts
         ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} >> /home/rsync-user/.ssh/known_hosts 2>%1
         if [[ "${?}" -ne "0" || "$(wc -l "/home/rsync-user/.ssh/known_hosts" | awk '{print $1}')" -eq "0" ]]; then
             echo "Unable to initiate keyscan. Is the receiver online?"
