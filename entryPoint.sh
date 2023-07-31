@@ -116,6 +116,7 @@ if [[ "${NODE,,}" == "receiver" ]]; then
             ssh-keygen -A
         fi
     done
+    mkdir -p /run/sshd
     mv /sshd_config /etc/ssh/sshd_config
     echo "PermitRootLogin no" >> /etc/ssh/sshd_config
     # Ensure permissions are correct on the rsync-user directory, or it won't let
@@ -125,6 +126,5 @@ if [[ "${NODE,,}" == "receiver" ]]; then
     chmod 700 /home/rsync-user
     chmod 700 /home/rsync-user/.ssh
     chmod 600 /home/rsync-user/.ssh/authorized_keys
-    /usr/sbin/sshd -D -e
-    while true; do sleep 1000; done
+    exec /usr/sbin/sshd -D -e
 fi
