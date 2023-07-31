@@ -125,5 +125,6 @@ if [[ "${NODE,,}" == "receiver" ]]; then
     chmod 700 /home/rsync-user
     chmod 700 /home/rsync-user/.ssh
     chmod 600 /home/rsync-user/.ssh/authorized_keys
-    exec /usr/sbin/sshd -D -e
+    /usr/sbin/sshd -D -e
+    while true; do sleep 1000; done
 fi
