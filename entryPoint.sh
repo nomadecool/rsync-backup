@@ -39,7 +39,7 @@ if [[ "${NODE,,}" == "sender" ]]; then
         exit 2
     fi
     if ! [[ -e "/home/rsync-user/.ssh/id_ed25519" ]]; then
-        ssh-keygen -b 2048 -t ed25519 -f /home/rsync-user/.ssh/id_ed25519 -q -N ""
+        su - rsync-user -c "ssh-keygen -b 2048 -t ed25519 -f /home/rsync-user/.ssh/id_ed25519 -q -N ''"
         chmod 400 "/home/rsync-user/.ssh/id_ed25519"
         chown rsync-user:rsync-user "/home/rsync-user/.ssh/id_ed25519"
         echo ""
