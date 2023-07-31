@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 fail="1"
 if [[ -z "${NODE,,}" ]]; then
