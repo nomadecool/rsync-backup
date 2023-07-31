@@ -23,8 +23,7 @@ fi
 
 # Create rsync-user if it does not exist
 if ! id -u rsync-user > /dev/null 2>&1; then
-    adduser -D rsync-user
-    echo "rsync-user:password" | chpasswd
+    adduser --gecos "" --disabled-password rsync-user
     mkdir -p /home/rsync-user/.ssh
     chown rsync-user:rsync-user /home/rsync-user/.ssh
     chmod 700 /home/rsync-user/.ssh
@@ -118,6 +117,7 @@ if [[ "${NODE,,}" == "receiver" ]]; then
         fi
     done
     mv /sshd_config /etc/ssh/sshd_config
+    echo "PermitRootLogin no" >> /etc/ssh/sshd_config
     # Ensure permissions are correct on the rsync-user directory, or it won't let
     # us rsync/ssh in as the rsync-user
     # Asegúrese de que los permisos sean correctos en el directorio rsync-user, o no nos permitirá
