@@ -83,7 +83,7 @@ if [[ "${NODE,,}" == "sender" ]]; then
 
     inotifywait -r -m -e close_write --format '%w%f' /backup/ | while read MODFILE
     do
-        rsync -a -P -e "ssh -p ${REM_SSH_PORT}" /backup/ rsync-user@${REM_HOST}:/backup/ --delete
+        rsync -a -P -e "ssh -p ${REM_SSH_PORT} -o StrictHostKeyChecking=no" /backup/ rsync-user@${REM_HOST}:/backup/ --delete
         if [[ "${?}" -ne "0" ]]; then
             echo "Unable to initiate backup rsync. Is the receiver online?"
             echo "Incapaz de iniciar el rsync de respaldo. ¿Está en línea el receptor?"
