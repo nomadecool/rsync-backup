@@ -65,8 +65,9 @@ if [[ "${NODE,,}" == "sender" ]]; then
         echo "Una vez hecho esto, reinicie este contenedor."
         exit 0
     fi
+    touch /home/rsync-user/.ssh/known_hosts
     if ! [[ -e "/home/rsync-user/.ssh/known_hosts" ]]; then
-        ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} >> /home/rsync-user/.ssh/known_hosts 2>/dev/null
+        ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} >> /home/rsync-user/.ssh/known_hosts 2>%1
         if [[ "${?}" -ne "0" || "$(wc -l "/home/rsync-user/.ssh/known_hosts" | awk '{print $1}')" -eq "0" ]]; then
             echo "Unable to initiate keyscan. Is the receiver online?"
             echo "Incapaz de iniciar el keyscan. ¿Está en línea el receptor?"
