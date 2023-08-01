@@ -24,7 +24,10 @@ fi
 # Create rsync-user if it does not exist
 if ! id -u rsync-user > /dev/null 2>&1; then
     adduser --gecos "" --disabled-password rsync-user
-    passwd -u rsync-user
+    # We can't SSH into the rsync-user if it doesn't have a password set
+    # Set a random 36 character string as the password
+    rsyncuserPass="$(date +%s | sha256sum | base64 | head -c 36)"
+    echo "rsync-user:${rsyncuserPass}" | chpasswd
     mkdir -p /home/rsync-user/.ssh
     chown rsync-user:rsync-user /home/rsync-user/.ssh
     chmod 700 /home/rsync-user/.ssh
