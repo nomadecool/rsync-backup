@@ -89,17 +89,17 @@ if [[ "${NODE,,}" == "receiver" ]]; then
         exit 6
     fi
     if ! [[ -e "/home/root/.ssh/authorized_keys" ]]; then
+        mkdir -p /home/root/.ssh
         touch /home/root/.ssh/authorized_keys
         echo "Por favor, obtenga el archivo 'authorized_keys' del remitente / Please obtain the 'authorized_keys' file from the sender,"
         echo "y añádalo en su ruta home/root/.ssh/authorized_keys / and add it at your home/root/.ssh/authorized_keys path"
-
-
         exit 7
     fi
     num_lines=$(cat "/home/root/.ssh/authorized_keys" | wc -l)
     if [[ $num_lines -lt 1 ]] ; then
         echo "Por favor añada la keys del sender / Please add the key from sender,"
         echo "al archivo home/root/.ssh/authorized_keys / to your file home/root/.ssh/authorized_keys"
+        exit 7
     fi
     sshKeyArr=("ssh_host_dsa_key" "ssh_host_dsa_key.pub" "ssh_host_ecdsa_key" "ssh_host_ecdsa_key.pub" "ssh_host_ed25519_key" "ssh_host_ed25519_key.pub" "ssh_host_rsa_key" "ssh_host_rsa_key.pub")
     for i in "${sshKeyArr[@]}"; do
