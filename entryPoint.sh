@@ -53,7 +53,7 @@ if [[ "${NODE,,}" == "sender" ]]; then
     echo $(REM_SSH_PORT)
     echo $(ls -ld /home/root/.ssh)
     if ! [[ -e "/home/root/.ssh/known_hosts" ]]; then
-        ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} > /home/root/.ssh/known_hosts 2>/ssh-keyscan.log
+        ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} > /home/root/.ssh/known_hosts 2>/home/root/ssh-keyscan.log
         if [[ "${?}" -ne "0" || "$(wc -l "/root/.ssh/known_hosts" | awk '{print $1}')" -eq "0" ]]; then
             echo "Incapaz de iniciar el keyscan. ¿Está en línea el receptor? / Unable to initiate keyscan. Is the receiver online?"
             rm "/root/.ssh/known_hosts"
