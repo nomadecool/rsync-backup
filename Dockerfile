@@ -1,25 +1,10 @@
-FROM debian:stable-slim
+FROM alpine:3
 
-RUN apt-get update && apt-get install -y \
-    git \
-    gcc \
-    make \
-    openssh-client \
-    openssh-server \
-    rsync \
-    inotify-tools \
-    dnsutils \
-    bash \
-    && git clone https://github.com/Yelp/dumb-init.git \
-    && cd dumb-init \
-    && make \
-    && cp dumb-init /usr/bin/ \
-    && cd .. \
-    && rm -rf dumb-init \
-    && rm -rf /var/lib/apt/lists/* # Clean up to reduce the size of the image
+RUN apk -U update
+RUN apk add --no-cache dumb-init openssh-client openssh-server rsync inotify-tools bind-tools bash
 
-COPY entryPoint.sh /entryPoint.sh
-COPY sshd_config /sshd_config
-RUN chmod +x /entryPoint.sh
+ADD entryPoint.sh /entryPoint.sh
+ADD sshd_config /
 
-ENTRYPOINT ["/usr/bin/dumb-it","/entryPoint.sh"]
+ENTRYPOINT ["dumb-init", "/entryPoint.sh"]
+
