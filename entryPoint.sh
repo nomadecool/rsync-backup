@@ -49,17 +49,14 @@ if [[ "${NODE,,}" == "sender" ]]; then
         echo "Una vez hecho esto, reinicie este contenedor / Once done, re-start this container."
         exit 0
     fi
-
+    echo $(REM_HOST)
+    echo $(REM_SSH_PORT)
+    echo $(ls -ld /home/root/.ssh)
     if ! [[ -e "/home/root/.ssh/known_hosts" ]]; then
-        touch /home/root/.ssh/known_hosts
-        chown root:root /home/root/.ssh
-        chown root:root /home/root/.ssh/known_hosts
-        chmod 700 /home/root/.ssh
-        chmod 600 /home/root/.ssh/known_hosts
-        su root -c "ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} >> /home/root/.ssh/known_hosts 2>/dev/null"
-        if [[ "${?}" -ne "0" || "$(wc -l "/home/root/.ssh/known_hosts" | awk '{print $1}')" -eq "0" ]]; then
+        ssh-keyscan -p ${REM_SSH_PORT} -t rsa ${REM_HOST} > /home/root/.ssh/known_hosts " # 2>/dev/null
+        if [[ "${?}" -ne "0" || "$(wc -l "/root/.ssh/known_hosts" | awk '{print $1}')" -eq "0" ]]; then
             echo "Incapaz de iniciar el keyscan. ¿Está en línea el receptor? / Unable to initiate keyscan. Is the receiver online?"
-            rm "/home/root/.ssh/known_hosts"
+            rm "/root/.ssh/known_hosts"
             exit 3
         fi
     fi
