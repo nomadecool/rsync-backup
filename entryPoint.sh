@@ -27,6 +27,7 @@ if [[ "${NODE,,}" == "sender" ]]; then
         exit 2
     fi
     if ! [[ -e "/home/root/.ssh/id_ed25519" ]]; then
+        mkdir -p /home/root/.ssh
         ssh-keygen -b 2048 -t ed25519 -f /home/root/.ssh/id_ed25519 -q -N ''
         chmod 400 "/home/root/.ssh/id_ed25519"
         chown root:root "/home/root/.ssh/id_ed25519"
